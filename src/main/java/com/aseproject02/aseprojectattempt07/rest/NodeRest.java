@@ -21,7 +21,7 @@ public class NodeRest {
 	
 	@PostMapping("/nodes")
 	public Node addNode(@RequestBody Node theNode) {
-		System.out.println(theNode);
+		//System.out.println(theNode);
 		return nodeService.save(theNode);
 	}
 	
@@ -34,8 +34,12 @@ public class NodeRest {
 	
 	@PutMapping("/updateNodeData")
 	public String updateNode(@RequestBody Node theNode) {
-		System.out.println(theNode);
-		nodeService.findById(getNextNodeId());
-		return "Update is callling...";
+		//System.out.println(theNode);
+		Node node = nodeService.findByNodeId(theNode.getId());
+		nodeService.deleteById(theNode.getId());
+		node.setId(theNode.getId());
+		node.setName(theNode.getName());
+		this.addNode(node);
+		return "Updated Successfull..";
 	}
 }

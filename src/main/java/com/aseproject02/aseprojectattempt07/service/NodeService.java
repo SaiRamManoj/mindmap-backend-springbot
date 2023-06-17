@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import com.aseproject02.aseprojectattempt07.entity.Node;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class NodeService implements NodeServiceInterface{
 	
@@ -21,9 +23,10 @@ public class NodeService implements NodeServiceInterface{
 	private NodeServiceInterface nodeServiceInterface;
 	
 	@SuppressWarnings("unchecked")
+	@Transactional
 	@Override
 	public Node save(Node theNode) {
-		System.out.println(theNode);
+		//System.out.println(theNode);
 		return nodeServiceInterface.save(theNode);
 	}
 	
@@ -39,13 +42,15 @@ public class NodeService implements NodeServiceInterface{
 		return nodeServiceInterface.findAll();
 	}
 
-	@Override
-	public  Optional<Node> findById(Long id) {
+	public Node findByNodeId(Long id) {
 		// TODO Auto-generated method stub
-		Optional<Node> result= nodeServiceInterface.findById(id);
-		System.out.println(result.get().toString());
-		return result;
+		return nodeServiceInterface.findById(id).orElse(null);
 	}
 	
-	
+	@Transactional
+	@Override
+	public void deleteById(Long id) {
+		// TODO Auto-generated method stub
+		nodeServiceInterface.deleteById(id);
+	}
 }
